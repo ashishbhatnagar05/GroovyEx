@@ -5,11 +5,11 @@ import java.io.BufferedReader
 class Problem14 {
 
 	static final BufferedReader br = new BufferedReader(new InputStreamReader(System.in))
-	static final LinkedHashMap cache=new LinkedHashMap(100000)
-
+	static final LinkedHashMap cache=new LinkedHashMap()
+	static final int MAX_SIZE=5000000
 
 	static void main(String[] args) {
-
+		initCache()
 		Integer testCases=Integer.parseInt(br.readLine().trim())
 		while(--testCases>=0) {
 			TreeMap map= new TreeMap()
@@ -19,6 +19,27 @@ class Problem14 {
 			}
 			println map.lastEntry().value
 			println cache.size()
+		}
+	}
+
+	static void initCache() {
+		cache.put(1,1)
+		int original=0
+		for(int i=2;i<MAX_SIZE;) {
+			int count=0
+			if(cache.containsKey(i)) {
+				cache.put(original,count+cache.get(i))
+			}
+			else {
+				original=i
+				if(isEven(i)) {
+					i=i/2
+				}else {
+					i=(3*i)+1
+				}
+				count++
+				cache.put(original,count)
+			}
 		}
 	}
 
